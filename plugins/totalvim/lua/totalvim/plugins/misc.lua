@@ -1,0 +1,42 @@
+-- stylua: ignore start
+vim.o.mouse = "a"                -- allow mouse everywhere
+vim.o.tabstop = 2                -- \
+vim.o.softtabstop = 2            -- |
+vim.o.shiftwidth = 2             -- > Set tab behaviour
+vim.o.expandtab = true           -- /
+vim.o.autoindent = true          -- Auto indent
+vim.o.smartindent = true
+vim.o.colorcolumn = "80,100,120" -- set column markers
+vim.o.signcolumn = "yes"         -- always show signcolumn
+vim.o.number = true              -- always show line numbers
+vim.o.relativenumber = false     -- explicit disable
+vim.o.cursorline = true          -- slightly color the line the cursor is on
+vim.o.cursorcolumn = true        -- slightly color the column the cursor is on
+vim.o.clipboard = "unnamedplus"  -- yank/delete into system clipboard
+vim.o.list = true
+vim.o.listchars = "tab:\u{21E2}\u{21E5},trail:\u{23B5},eol:\u{21A9}"
+vim.o.wrap = false
+vim.o.termguicolors = true
+-- stylua: ignore end
+
+---Sets linemode to the requested numbering.
+---@param numbering_mode "relative"|"absolute"|"toggle" which mode shall be activated by the keypress
+---@return function
+local function change_linum_mode(numbering_mode)
+  if numbering_mode == "toggle" then
+    return function() vim.o.relativenumber = not vim.o.relativenumber end
+  elseif numbering_mode == "relative" or numbering_mode == "absolute" then
+    local rel = numbering_mode == "relative"
+    return function() vim.o.relativenumber = rel end
+  end
+
+  local message = string.format("'%s' is not a valid mode", numbering_mode)
+  error(message)
+end
+
+require("which-key").add({
+  { "<leader>#", group = "line numbering modes" },
+  { "<leader>##", change_linum_mode("toggle"), desc = "toggle relativenumber" },
+  { "<leader>#+", change_linum_mode("relative"), desc = "enable relativenumber" },
+  { "<leader>#-", change_linum_mode("absolute"), desc = "disable relativenumber" },
+})
