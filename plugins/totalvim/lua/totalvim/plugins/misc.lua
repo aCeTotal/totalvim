@@ -6,7 +6,7 @@ vim.o.shiftwidth = 2             -- > Set tab behaviour
 vim.o.expandtab = true           -- /
 vim.o.autoindent = true          -- Auto indent
 vim.o.smartindent = true
-vim.o.colorcolumn = "80,100,120" -- set column markers
+vim.o.colorcolumn = ""          -- no column markers
 vim.o.signcolumn = "yes"         -- always show signcolumn
 vim.o.number = true              -- always show line numbers
 vim.o.relativenumber = false     -- explicit disable
@@ -14,8 +14,9 @@ vim.o.cursorline = true          -- slightly color the line the cursor is on
 vim.o.cursorcolumn = true        -- slightly color the column the cursor is on
 vim.o.clipboard = "unnamedplus"  -- yank/delete into system clipboard
 vim.o.list = true
-vim.o.listchars = "tab:\u{21E2}\u{21E5},trail:\u{23B5},eol:\u{21A9}"
+vim.o.listchars = "trail:\u{23B5}"
 vim.o.wrap = false
+vim.o.cmdheight = 0              -- hide command line (noice handles it)
 vim.o.termguicolors = true
 -- stylua: ignore end
 

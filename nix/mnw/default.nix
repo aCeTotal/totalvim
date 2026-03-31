@@ -25,7 +25,7 @@
         ripgrep
         git
         ;
-      prettier = pkgs.nodePackages.prettier;
+      inherit (pkgs) prettier;
     }
     ++ lib.optionals pkgs.stdenv.isLinux [pkgs.wl-clipboard pkgs.xclip];
 
