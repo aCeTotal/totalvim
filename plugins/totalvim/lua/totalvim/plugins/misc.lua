@@ -9,16 +9,49 @@ vim.o.smartindent = true
 vim.o.colorcolumn = ""          -- no column markers
 vim.o.signcolumn = "yes"         -- always show signcolumn
 vim.o.number = true              -- always show line numbers
+vim.o.statuscolumn = "%s%=%l  "   -- signs + line number + fixed gap before code
 vim.o.relativenumber = false     -- explicit disable
 vim.o.cursorline = true          -- slightly color the line the cursor is on
 vim.o.cursorcolumn = true        -- slightly color the column the cursor is on
 vim.o.clipboard = "unnamedplus"  -- yank/delete into system clipboard
 vim.o.list = true
-vim.o.listchars = "trail:\u{23B5}"
+vim.o.listchars = "tab:  ,trail:\u{23B5}"
 vim.o.wrap = false
 vim.o.cmdheight = 0              -- hide command line (noice handles it)
 vim.o.termguicolors = true
+vim.o.updatetime = 2000          -- CursorHold delay (2s)
 -- stylua: ignore end
+
+-- Auto-allow direnv when .envrc exists
+vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
+  callback = function()
+    if vim.fn.filereadable(".envrc") == 1 then
+      vim.fn.system("direnv allow")
+    end
+  end,
+})
+
+-- Show diagnostic float when cursor holds on a line with errors/warnings
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    local diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line(".") - 1 })
+    if #diagnostics > 0 then
+      vim.diagnostic.open_float({
+        scope = "cursor",
+        focusable = false,
+        relative = "editor",
+        anchor = "NE",
+        row = 0,
+        col = vim.o.columns,
+        border = "rounded",
+      })
+    end
+  end,
+})
+
+-- Auto-reindent on paste
+vim.keymap.set("n", "p", "p=`]", { desc = "Paste and re-indent" })
+vim.keymap.set("n", "P", "P=`]", { desc = "Paste above and re-indent" })
 
 ---Sets linemode to the requested numbering.
 ---@param numbering_mode "relative"|"absolute"|"toggle" which mode shall be activated by the keypress

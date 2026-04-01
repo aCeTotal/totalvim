@@ -24,6 +24,7 @@
         stylua
         ripgrep
         git
+        direnv
         ;
       inherit (pkgs) prettier;
     }
@@ -35,6 +36,7 @@
     builtins.attrValues {
       inherit
         (pkgs.vimPlugins)
+        direnv-vim
         lz-n
         which-key-nvim
         nvim-lspconfig
