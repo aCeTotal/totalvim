@@ -1,4 +1,8 @@
 -- Treesitter grammars are provided by Nix (withAllGrammars).
--- Neovim 0.11+ enables treesitter highlight and indent by default.
--- Explicit enable for incremental selection:
+-- Must explicitly enable highlight and indent for all filetypes.
+require("nvim-treesitter.configs").setup({
+  highlight = { enable = true },
+  indent = { enable = true },
+})
+
 vim.treesitter.language.register("bash", "zsh")
