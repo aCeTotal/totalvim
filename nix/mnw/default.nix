@@ -25,8 +25,16 @@
         ripgrep
         git
         direnv
+        cmake
+        ninja
+        cmake-language-server
+        openocd
+        stlink
+        renode
         ;
       inherit (pkgs) prettier;
+      inherit (pkgs) gcc-arm-embedded;
+      inherit (pkgs) probe-rs-tools;
     }
     ++ lib.optionals pkgs.stdenv.isLinux [pkgs.wl-clipboard pkgs.xclip];
 
@@ -76,6 +84,8 @@
       lspsaga-nvim
       mini-pairs
       neogit
+      nvim-dap-ui
+      nvim-dap-virtual-text
       nvim-ufo
       nvim-surround
       trouble-nvim
