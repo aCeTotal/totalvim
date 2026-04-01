@@ -4,6 +4,7 @@ local function is_always_hidden(name)
   return false
 end
 
+
 require("oil").setup({
   columns = { "icon", "permissions", "size", "mtime" },
   view_options = {
@@ -11,6 +12,7 @@ require("oil").setup({
     is_always_hidden = is_always_hidden,
   },
 })
+
 
 require("which-key").add({
   { "<leader>o", group = "oil file explorer" },

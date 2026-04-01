@@ -16,6 +16,7 @@ local raw_string_configs = {
   },
 }
 
+
 local function setup_raw_strings()
   for filetype, config in pairs(raw_string_configs) do
     vim.api.nvim_create_autocmd("FileType", {
@@ -29,6 +30,7 @@ local function setup_raw_strings()
   end
 end
 
+
 local function get_supported_filetypes()
   local filetypes = {}
   for ft, _ in pairs(raw_string_configs) do
@@ -36,6 +38,7 @@ local function get_supported_filetypes()
   end
   return filetypes
 end
+
 
 require("totalvim.lazy").add_specs({ {
   "nvim-surround",

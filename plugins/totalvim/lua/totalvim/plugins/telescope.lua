@@ -16,12 +16,14 @@ local mappings_for_modes = {
   i = mappings,
 }
 
+
 local function find_files()
   builtin.find_files({
     hidden = true,
     find_command = { "rg", "--files", "--color", "never", "--glob=!.git" },
   })
 end
+
 
 telescope.setup({
   pickers = {
@@ -31,8 +33,10 @@ telescope.setup({
   },
 })
 
+
 pcall(telescope.load_extension, "fzf")
 telescope.load_extension("ui-select")
+
 
 require("which-key").add({
   { "<leader>f", group = "find" },
@@ -44,5 +48,6 @@ require("which-key").add({
   { "<leader>fs", builtin.lsp_definitions, desc = "find definitions" },
   { "<leader>fr", builtin.lsp_references, desc = "find references" },
 })
+
 
 require("totalvim.health").register_program("rg", true)

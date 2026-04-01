@@ -1,5 +1,6 @@
 local lualine = require("lualine")
 
+
 local function treesitter_status()
   local highlighter = require("vim.treesitter.highlighter")
   local buf = vim.api.nvim_get_current_buf()
@@ -13,6 +14,7 @@ local function treesitter_status()
   return "TS: \u{25CB}"
 end
 
+
 local filename = {
   "filename",
   symbols = {
@@ -20,6 +22,7 @@ local filename = {
     readonly = "[\u{1F512}]",
   },
 }
+
 
 lualine.setup({
   options = { theme = "auto" },

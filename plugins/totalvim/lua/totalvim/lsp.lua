@@ -11,6 +11,7 @@ local blink_capabilities = require("blink.cmp").get_lsp_capabilities({
   },
 })
 
+
 -- Load individual languages configuration by scanning clients directory
 local function discover_clients()
   local clients = {}
@@ -44,6 +45,7 @@ local function discover_clients()
 
   return clients
 end
+
 
 local clients = discover_clients()
 

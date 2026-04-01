@@ -4,6 +4,12 @@ require("totalvim.lazy").add_specs({ {
   after = function()
     require("catppuccin").setup({
       flavour = "mocha",
+      custom_highlights = function(colors)
+        return {
+          CursorLine = { bg = colors.surface1 },
+          CursorLineNr = { fg = colors.lavender, style = { "bold" } },
+        }
+      end,
       integrations = {
         blink_cmp = true,
         noice = true,

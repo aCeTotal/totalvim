@@ -6,13 +6,16 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+
 -- register keys for neogit
 require("which-key").add({
   { "<leader>g", group = "git" },
   { "<leader>gb", group = "blame" },
 })
 
+
 require("totalvim.health").register_program("git", true)
+
 
 require("totalvim.lazy").add_specs({ {
   "gitsigns.nvim",

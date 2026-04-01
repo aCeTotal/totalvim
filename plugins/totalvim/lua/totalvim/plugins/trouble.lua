@@ -1,10 +1,12 @@
 ---@type boolean
 local virtual_lines = false
 
+
 local function toggle_virtual_lines()
   virtual_lines = not virtual_lines
   vim.diagnostic.config({ virtual_lines = virtual_lines })
 end
+
 
 require("which-key").add({
   { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "toggle trouble" },
@@ -15,6 +17,7 @@ require("which-key").add({
   { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
   { "<leader>xc", toggle_virtual_lines, desc = "toggle virtual lines" },
 })
+
 
 require("totalvim.lazy").add_specs({ {
   "trouble.nvim",

@@ -10,6 +10,7 @@ M.finish = function()
   require("lz.n").load(require("totalvim.lazy.specs"))
 end
 
+
 ---@param specs lz.n.Spec[]
 M.add_specs = function(specs)
   if _finished then

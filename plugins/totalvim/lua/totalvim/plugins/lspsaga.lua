@@ -13,6 +13,7 @@ require("totalvim.lazy").add_specs({ {
   lazy = false,
 }, })
 
+
 require("which-key").add({
   { "<leader>lp", group = "peek" },
   { "<leader>lpd", "<cmd>Lspsaga peek_definition<cr>", desc = "peek definition" },

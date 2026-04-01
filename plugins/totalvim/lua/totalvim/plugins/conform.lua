@@ -19,6 +19,7 @@ require("conform").setup({
   },
 })
 
+
 -- Auto-format on file open
 vim.api.nvim_create_autocmd("BufReadPost", {
   callback = function(args)
@@ -29,6 +30,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end
   end,
 })
+
 
 require("totalvim.health").register_program("prettier", { "html", "css", "javascript", "typescript" })
 require("totalvim.health").register_program("clang-format", { "c", "cpp" })

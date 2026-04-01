@@ -7,6 +7,7 @@ local function on_attach(_, buffer)
   })
 end
 
+
 return {
   name = "eslint",
   on_attach = { helpers.keymap, on_attach },

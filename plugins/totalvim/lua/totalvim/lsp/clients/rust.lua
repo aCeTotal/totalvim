@@ -18,6 +18,7 @@ require("totalvim.lazy").add_specs({
   },
 })
 
+
 local settings = {
   ["rust-analyzer"] = {
     inlayHints = {
@@ -36,6 +37,7 @@ local settings = {
     },
   },
 }
+
 
 return {
   name = "rust_analyzer",

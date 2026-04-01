@@ -4,6 +4,7 @@ local select = require("luasnip.extras.select_choice")
 
 luasnip.config.setup({ enable_autosnippets = true })
 
+
 -- Load VSCode-style snippets (from friendly-snippets)
 require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -17,9 +18,11 @@ end
 table.insert(paths, vim.fn.stdpath("config") .. "/snippets")
 require("luasnip.loaders.from_lua").load({ paths = paths })
 
+
 local function cycle()
   if luasnip.choice_active() then return luasnip.change_choice(1) end
 end
+
 
 require("which-key").add({
   { "<C-e>", luasnip.expand, desc = "expand snippet", mode = { "i", "s" } },

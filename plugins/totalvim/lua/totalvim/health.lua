@@ -6,12 +6,14 @@ local done = false
 
 local CRITICALITY = { OK = 1, ERROR = 2, WARN = 3, NOTICE = 4 }
 
+
 ---Checks if a program is available in the system `PATH`
 ---@param program string the program to check
 ---@return boolean whether the program is in the `PATH`
 local function in_path(program)
   return vim.fn.executable(program) == 1
 end
+
 
 local function health_cmp(a, b)
   -- Sort by program name, if same criticality
@@ -21,9 +23,11 @@ local function health_cmp(a, b)
   return a[4] < b[4]
 end
 
+
 local function health_sort(tbl)
   table.sort(tbl, health_cmp)
 end
+
 
 local function report_table(tbl)
   for _, info in ipairs(tbl) do
@@ -36,6 +40,7 @@ local function report_table(tbl)
     report_func(message)
   end
 end
+
 
 ---Performs health checks for all registered LSP configs
 local function check_lspconfigs()
@@ -53,6 +58,7 @@ local function check_lspconfigs()
   health_sort(configs)
   report_table(configs)
 end
+
 
 ---Performs health checks for all registered programs
 local function check_programs()
@@ -72,6 +78,7 @@ local function check_programs()
   health_sort(binaries)
   report_table(binaries)
 end
+
 
 ---Registers a program for the healthcheck, the program will be searched in the
 ---`PATH`.
@@ -93,6 +100,7 @@ M.register_program = function(program, required_or_filetypes)
   programs[program] = required_or_filetypes
 end
 
+
 ---Registers an LSP server for healthcheck
 ---@param lsp string the name of the LSP server
 ---@param cmd string|nil the binary command for this LSP
@@ -104,10 +112,12 @@ M.register_lsp = function(lsp, cmd, filetypes)
   end
 end
 
+
 ---Marks the configuration as completely loaded
 M.done = function()
   done = true
 end
+
 
 ---Runs all registered health checks, usually called by `:checkhealth`.
 M.check = function()
@@ -121,5 +131,6 @@ M.check = function()
   check_lspconfigs()
   check_programs()
 end
+
 
 return M

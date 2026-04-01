@@ -5,6 +5,7 @@ vim.o.foldenable = true
 
 vim.o.fillchars = "foldopen:\u{256D},foldclose:\u{00B7},foldsep:\u{2502}"
 
+
 require("totalvim.lazy").add_specs({ {
   "nvim-ufo",
   event = "DeferredUIEnter",

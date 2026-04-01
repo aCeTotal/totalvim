@@ -9,7 +9,9 @@ local function rf(modname)
   end
 end
 
+
 local this_module = ...
+
 
 ---A small helper function to require a submodule "relatively"
 ---@param submodule string
@@ -18,6 +20,7 @@ local function rs(submodule)
   local module_name = string.format("%s.%s", this_module, submodule)
   return require(module_name)
 end
+
 
 --- Load individual plugin specifications by scanning the `plugins` directory.
 local function discover_plugins()
@@ -46,6 +49,7 @@ local function discover_plugins()
 
   return plugins
 end
+
 
 for _, module in ipairs(discover_plugins()) do
   require(module)

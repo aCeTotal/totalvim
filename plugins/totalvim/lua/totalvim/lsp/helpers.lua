@@ -8,6 +8,7 @@ local function refresh_codelens(client, buffer)
   end
 end
 
+
 ---Triggers a reformat of the current buffer
 local function format_buffer()
   local ok, conform = pcall(require, "conform")
@@ -17,6 +18,7 @@ local function format_buffer()
     vim.lsp.buf.format({ async = true })
   end
 end
+
 
 ---Registers the default keymap for LSP powered buffers
 ---@param client vim.lsp.Client
@@ -36,6 +38,7 @@ local function keymap(client, buffer) ---@diagnostic disable-line:unused-local
   })
 end
 
+
 ---The default LSP attach handler
 ---@param client vim.lsp.Client
 ---@param buffer integer
@@ -52,6 +55,7 @@ local function default(client, buffer)
   if client.server_capabilities.inlayHintProvider then vim.lsp.inlay_hint.enable(true, { bufnr = buffer }) end
 end
 
+
 ---Sets up format-on-save for a buffer
 ---@param _ vim.lsp.Client
 ---@param buffer integer
@@ -63,6 +67,7 @@ local function format_on_save(_, buffer)
     end,
   })
 end
+
 
 ---Iterates over all given handlers and calls them in order
 ---@param handler function|function[]
@@ -76,6 +81,7 @@ local function combine(handler)
     end
   end
 end
+
 
 return {
   combine = combine,

@@ -3,10 +3,12 @@ local luasnip = require("luasnip")
 
 local winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel"
 
+
 local function is_hidden_snippet()
   local ls = require("luasnip")
   return not require("blink.cmp").is_visible() and not ls.in_snippet() and ls.expandable()
 end
+
 
 blink.setup({
   snippets = {
