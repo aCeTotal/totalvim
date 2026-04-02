@@ -66,6 +66,7 @@
         telescope-ui-select-nvim
         telescope-fzf-native-nvim
         plenary-nvim
+        vim-nix
         ;
       nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
     }
