@@ -1,6 +1,5 @@
 local helpers = require("totalvim.lsp.helpers")
 local health = require("totalvim.health")
-local lspconfig = require("lspconfig")
 
 local blink_capabilities = require("blink.cmp").get_lsp_capabilities({
   textDocument = {
@@ -77,7 +76,10 @@ for _, client_module in ipairs(clients) do
     filetypes = client_config.filetypes,
   }
 
-  lspconfig[name].setup(setup)
+  -- Native LSP (Nvim 0.11+): merge overrides onto lspconfig's shipped lsp/<name>.lua
+  -- defaults, then enable autostart. Replaces the deprecated require("lspconfig") framework.
+  vim.lsp.config(name, setup)
+  vim.lsp.enable(name)
   health.register_lsp(name, setup.cmd and setup.cmd[1], setup.filetypes)
 
   ::continue::

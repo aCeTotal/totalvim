@@ -60,7 +60,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_autocmd("User", {
   pattern = "DirenvLoaded",
   callback = function()
-    vim.cmd("LspRestart")
+    -- Nvim 0.12+ ships native ":lsp restart"; older lspconfig used ":LspRestart".
+    -- pcall: ":lsp restart" errors when no clients are attached (a no-op case).
+    if vim.fn.exists(":LspRestart") == 2 then
+      pcall(vim.cmd, "LspRestart")
+    else
+      pcall(vim.cmd, "lsp restart")
+    end
   end,
 })
 
