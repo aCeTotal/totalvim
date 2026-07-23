@@ -1,14 +1,3 @@
----Refreshes the codelenses in the current buffer
----@param client vim.lsp.Client
----@param buffer integer
----@return function
-local function refresh_codelens(client, buffer)
-  return function(args)
-    if client:supports_method("textDocument/codelens", buffer) then vim.lsp.codelens.refresh(args) end
-  end
-end
-
-
 ---Triggers a reformat of the current buffer
 local function format_buffer()
   local ok, conform = pcall(require, "conform")
@@ -45,10 +34,9 @@ end
 local function default(client, buffer)
   keymap(client, buffer)
 
-  vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave", "CursorHold", "LspAttach" }, {
-    buffer = buffer,
-    callback = refresh_codelens(client, buffer),
-  })
+  if client:supports_method("textDocument/codeLens", buffer) then
+    vim.lsp.codelens.enable(true, { bufnr = buffer })
+  end
 
   vim.api.nvim_exec_autocmds("User", { pattern = "LspAttached" })
 

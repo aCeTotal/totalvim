@@ -37,7 +37,7 @@
         jdt-language-server
         nixd
         # Formatters (Nix, Java) and the C# debug adapter.
-        nixfmt-rfc-style
+        nixfmt
         google-java-format
         netcoredbg
         ;
