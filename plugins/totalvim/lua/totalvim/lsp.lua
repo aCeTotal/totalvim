@@ -79,7 +79,18 @@ for _, client_module in ipairs(clients) do
   -- Native LSP (Nvim 0.11+): merge overrides onto lspconfig's shipped lsp/<name>.lua
   -- defaults, then enable autostart. Replaces the deprecated require("lspconfig") framework.
   vim.lsp.config(name, setup)
-  vim.lsp.enable(name)
+  if client_config.defer_direnv then
+    -- Enable only once direnv has exported the project env (toolchain on PATH), so
+    -- servers that probe their toolchain at start don't launch before `nix develop`
+    -- is loaded. enable() also starts on the already-open buffer that triggered this.
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "DirenvLoaded",
+      once = true,
+      callback = function() vim.lsp.enable(name) end,
+    })
+  else
+    vim.lsp.enable(name)
+  end
   health.register_lsp(name, setup.cmd and setup.cmd[1], setup.filetypes)
 
   ::continue::

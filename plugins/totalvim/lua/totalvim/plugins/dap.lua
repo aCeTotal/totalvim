@@ -15,6 +15,10 @@ health.register_program("st-info", false)
 health.register_program("probe-rs", false)
 health.register_program("renode", false)
 
+-- Native/managed debug adapters
+health.register_program("codelldb", { "rust", "c", "cpp" })
+health.register_program("netcoredbg", { "cs" })
+
 
 require("totalvim.lazy").add_specs({
   -- nvim-dap
@@ -103,10 +107,61 @@ require("totalvim.lazy").add_specs({
       }
       dap.configurations.cpp = dap.configurations.c
 
+      -- codelldb: native debug adapter for compiled binaries (Rust, and desktop C/C++
+      -- alongside the embedded configs above). Binary provided on PATH by the
+      -- vscode-lldb `adapter` output.
+      dap.adapters.codelldb = {
+        type = "server",
+        port = "${port}",
+        executable = {
+          command = "codelldb",
+          args = { "--port", "${port}" },
+        },
+      }
+
+      local codelldb_launch = {
+        {
+          name = "Launch executable (codelldb)",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+        },
+      }
+      dap.configurations.rust = codelldb_launch
+      -- Append to the existing embedded C/C++ configs (cpp shares the c table).
+      vim.list_extend(dap.configurations.c, codelldb_launch)
+
+      -- netcoredbg: .NET debug adapter for C#.
+      dap.adapters.netcoredbg = {
+        type = "executable",
+        command = "netcoredbg",
+        args = { "--interpreter=vscode" },
+      }
+      dap.configurations.cs = {
+        {
+          name = "Launch (netcoredbg)",
+          type = "netcoredbg",
+          request = "launch",
+          program = function()
+            return vim.fn.input("DLL: ", vim.fn.getcwd() .. "/bin/Debug/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+        },
+      }
+
       -- Load .vscode/launch.json if present
       local ok, vscode = pcall(require, "dap.ext.vscode")
       if ok then
-        vscode.load_launchjs(nil, { probe_rs = { "c", "cpp" }, arm_gdb = { "c", "cpp" } })
+        vscode.load_launchjs(nil, {
+          probe_rs = { "c", "cpp" },
+          arm_gdb = { "c", "cpp" },
+          codelldb = { "c", "cpp", "rust" },
+          netcoredbg = { "cs" },
+        })
       end
     end,
   },
