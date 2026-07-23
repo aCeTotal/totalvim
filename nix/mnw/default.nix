@@ -27,10 +27,10 @@
         direnv
         cmake
         ninja
+        bear
         cmake-language-server
         openocd
         stlink
-        renode
         ;
       inherit (pkgs) prettier;
       inherit (pkgs) gcc-arm-embedded;
