@@ -40,6 +40,33 @@ vim.api.nvim_create_autocmd("CursorHold", {
 })
 
 
+-- Ensure a flake project has an allowed `.envrc` so direnv loads its devShell,
+-- i.e. running `nix develop` automatically on first open. Returns the .envrc path
+-- (existing or freshly created), or nil when there is no flake to load.
+---@param dir string directory to search upward from
+---@return string|nil
+local function ensure_flake_envrc(dir)
+  local envrc = vim.fs.find(".envrc", { path = dir, upward = true })[1]
+  if envrc then return envrc end
+
+  local flake = vim.fs.find("flake.nix", { path = dir, upward = true })[1]
+  if not flake then return nil end
+
+  local root = vim.fs.dirname(flake)
+  local path = root .. "/.envrc"
+  local f = io.open(path, "w")
+  if not f then return nil end
+  -- Plain-direnv equivalent of nix-direnv's `use flake`: re-eval when the flake
+  -- changes, and export the devShell env (nix caches the eval, so reopens are fast).
+  f:write("watch_file flake.nix flake.lock\neval \"$(nix print-dev-env)\"\n")
+  f:close()
+
+  -- direnv blocks a new .envrc until allowed; allow it so DirenvExport can load it.
+  vim.system({ "direnv", "allow", root }):wait()
+  return path
+end
+
+
 -- Export direnv environment when opening a file in a new project
 local last_envrc = nil
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -47,10 +74,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
     local buf_name = vim.api.nvim_buf_get_name(0)
     if buf_name == "" then return end
 
-    local envrc = vim.fs.find(".envrc", { path = vim.fs.dirname(buf_name), upward = true })
-    if #envrc == 0 or envrc[1] == last_envrc then return end
+    local envrc = ensure_flake_envrc(vim.fs.dirname(buf_name))
+    if not envrc or envrc == last_envrc then return end
 
-    last_envrc = envrc[1]
+    last_envrc = envrc
     vim.cmd("DirenvExport")
   end,
 })
