@@ -18,6 +18,9 @@ end
 table.insert(paths, vim.fn.stdpath("config") .. "/snippets")
 require("luasnip.loaders.from_lua").load({ paths = paths })
 
+-- UE5 boilerplate snippets (cpp)
+require("totalvim.snippets.unreal")
+
 
 local function cycle()
   if luasnip.choice_active() then return luasnip.change_choice(1) end
