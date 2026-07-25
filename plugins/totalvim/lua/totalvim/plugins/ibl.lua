@@ -16,8 +16,10 @@ require("totalvim.lazy").add_specs({ {
       indent = { char = "\u{250A}" },
       scope = {
         enabled = true,
-        show_start = true,
-        show_end = true,
+        -- start/end underlines force a re-render of the whole scope on every
+        -- scope change, which stutters fast cursor movement in large files
+        show_start = false,
+        show_end = false,
         highlight = highlight,
       },
     })

@@ -18,6 +18,9 @@ vim.o.wrap = false
 vim.o.cmdheight = 0              -- hide command line (noice handles it)
 vim.o.termguicolors = true
 vim.o.updatetime = 1000          -- CursorHold delay (1s)
+vim.o.smoothscroll = true        -- scroll by screen line, never jump-recenter
+vim.g.matchparen_timeout = 20        -- default 300ms; a slow paren search stalls every cursor move
+vim.g.matchparen_insert_timeout = 20 -- keep insert-mode matching capped too
 -- stylua: ignore end
 
 

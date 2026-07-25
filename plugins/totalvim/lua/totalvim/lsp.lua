@@ -74,6 +74,9 @@ for _, client_module in ipairs(clients) do
     settings = client_config.settings,
     on_init = client_config.on_init,
     filetypes = client_config.filetypes,
+    -- Push edits to the server sooner than the 150ms default so diagnostics
+    -- (e.g. a missing ";") come back while you're still on the line.
+    flags = { debounce_text_changes = 50 },
   }
 
   -- Native LSP (Nvim 0.11+): merge overrides onto lspconfig's shipped lsp/<name>.lua

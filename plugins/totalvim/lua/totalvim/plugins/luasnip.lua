@@ -18,8 +18,9 @@ end
 table.insert(paths, vim.fn.stdpath("config") .. "/snippets")
 require("luasnip.loaders.from_lua").load({ paths = paths })
 
--- UE5 boilerplate snippets (cpp)
+-- UE5 (cpp) og Bevy (rust) boilerplate snippets
 require("totalvim.snippets.unreal")
+require("totalvim.snippets.bevy")
 
 
 local function cycle()
