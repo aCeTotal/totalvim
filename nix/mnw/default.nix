@@ -111,6 +111,7 @@
       nvim-dap-ui
       nvim-dap-virtual-text
       nvim-jdtls
+      neocord
       roslyn-nvim
       nvim-ufo
       nvim-surround
