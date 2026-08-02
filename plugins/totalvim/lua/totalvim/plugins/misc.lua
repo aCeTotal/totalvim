@@ -71,6 +71,7 @@ end
 
 
 -- Export direnv environment when opening a file in a new project
+vim.g.direnv_silent_load = 1 -- hide "direnv: loading/export ..." messages
 local last_envrc = nil
 vim.api.nvim_create_autocmd("BufEnter", {
   callback = function()
